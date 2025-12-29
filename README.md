@@ -74,4 +74,3 @@ final class GetMeAction
 - Install deps: `composer install`
 - Run unit/integration tests: `./bin/phpunit`
 - Namespaces live under `ChamberOrchestra\ViewBundle`; autoloaded PSR-4 from `src/`.
-
