@@ -3,21 +3,21 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the SymfonyOrchestra package.
+ * This file is part of the ChamberOrchestra package.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace SymfonyOrchestra\ViewBundle\EventSubscriber;
+namespace ChamberOrchestra\ViewBundle\EventSubscriber;
 
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\Serializer\SerializerInterface;
-use SymfonyOrchestra\ViewBundle\View\DataView;
-use SymfonyOrchestra\ViewBundle\View\ResponseView;
-use SymfonyOrchestra\ViewBundle\View\ViewInterface;
+use ChamberOrchestra\ViewBundle\View\DataView;
+use ChamberOrchestra\ViewBundle\View\ResponseView;
+use ChamberOrchestra\ViewBundle\View\ViewInterface;
 
 #[AsEventListener(ViewEvent::class)]
 readonly class ViewSubscriber

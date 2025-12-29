@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the SymfonyOrchestra package.
+ * This file is part of the ChamberOrchestra package.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -11,17 +11,16 @@ declare(strict_types=1);
 namespace Tests\Unit\PropertyAccessor;
 
 use Doctrine\Persistence\Proxy;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\PropertyAccess\Exception\NoSuchPropertyException;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
-use SymfonyOrchestra\ViewBundle\PropertyAccessor\ReflectionPropertyAccessor;
-use SymfonyOrchestra\ViewBundle\PropertyAccessor\ReflectionService;
+use ChamberOrchestra\ViewBundle\PropertyAccessor\ReflectionPropertyAccessor;
+use ChamberOrchestra\ViewBundle\PropertyAccessor\ReflectionService;
 
 class ReflectionPropertyAccessorTest extends TestCase
 {
-    /**
-     * @dataProvider getTestSetValueData
-     */
+    #[DataProvider('getTestSetValueData')]
     public function testSetValue(object|array|string $objectOrArray, string $path, mixed $value): void
     {
         $proxy = function (bool $initialized): Proxy {
@@ -68,9 +67,7 @@ class ReflectionPropertyAccessorTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider getTestGetValueData
-     */
+    #[DataProvider('getTestGetValueData')]
     public function testGetValue(object|array|string $objectOrArray, string $path): void
     {
         $proxy = function (bool $initialized): Proxy {
@@ -113,9 +110,7 @@ class ReflectionPropertyAccessorTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider getTestGetValueDecoratedData
-     */
+    #[DataProvider('getTestGetValueDecoratedData')]
     public function testGetValueDecorated(object $class, string $path, \Throwable $exception): void
     {
         $accessor = $this->createMock(PropertyAccessorInterface::class);
@@ -127,7 +122,7 @@ class ReflectionPropertyAccessorTest extends TestCase
         $reflectionService = $this->createMock(ReflectionService::class);
         $reflectionService->expects(self::once())->method('getReflectionProperty')->willReturn($property);
 
-        self::assertEquals($result, (new ReflectionPropertyAccessor($accessor, $reflectionService))->getValue($class, $path));
+        self::assertEquals($result, new ReflectionPropertyAccessor($accessor, $reflectionService)->getValue($class, $path));
     }
 
     public static function getTestGetValueDecoratedData(): array
@@ -146,9 +141,7 @@ class ReflectionPropertyAccessorTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider getTestGetValueExceptionData
-     */
+    #[DataProvider('getTestGetValueExceptionData')]
     public function testGetValueException(\Exception $exception, bool $throw): void
     {
         $class = new \stdClass();
@@ -166,7 +159,7 @@ class ReflectionPropertyAccessorTest extends TestCase
         if ($throw) {
             $this->expectExceptionObject($exception);
         }
-        (new ReflectionPropertyAccessor($accessor, $reflectionService))->getValue($class, $path);
+        new ReflectionPropertyAccessor($accessor, $reflectionService)->getValue($class, $path);
     }
 
     public static function getTestGetValueExceptionData(): array
@@ -195,12 +188,10 @@ class ReflectionPropertyAccessorTest extends TestCase
         $reflectionService->expects(self::once())->method('getReflectionProperty')->with($class, $path)->willReturn(null);
 
         $this->expectExceptionObject($e);
-        (new ReflectionPropertyAccessor($accessor, $reflectionService))->getValue($class, $path);
+        new ReflectionPropertyAccessor($accessor, $reflectionService)->getValue($class, $path);
     }
 
-    /**
-     * @dataProvider getTestIsWritableData
-     */
+    #[DataProvider('getTestIsWritableData')]
     public function testIsWritable(bool $isWritable, bool $hasProperty, bool $expected): void
     {
         $class = new \stdClass();
@@ -209,7 +200,7 @@ class ReflectionPropertyAccessorTest extends TestCase
         $accessor = $this->createMock(PropertyAccessorInterface::class);
         $accessor->expects(self::once())->method('isWritable')->with($class, $path)->willReturn($isWritable);
 
-        $property = $this->createMock(\ReflectionProperty::class);
+        $property = $this->createStub(\ReflectionProperty::class);
 
         $reflectionService = $this->createMock(ReflectionService::class);
         $reflectionService
@@ -217,7 +208,7 @@ class ReflectionPropertyAccessorTest extends TestCase
             ->method('getReflectionProperty')
             ->willReturn($hasProperty ? $property : null);
 
-        $actual = (new ReflectionPropertyAccessor($accessor, $reflectionService))->isWritable($class, $path);
+        $actual = new ReflectionPropertyAccessor($accessor, $reflectionService)->isWritable($class, $path);
         self::assertEquals($expected, $actual);
     }
 
@@ -242,9 +233,7 @@ class ReflectionPropertyAccessorTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider getTestIsReadableData
-     */
+    #[DataProvider('getTestIsReadableData')]
     public function testIsReadable(bool $isReadable, bool $hasProperty, bool $expected): void
     {
         $class = new \stdClass();
@@ -253,7 +242,7 @@ class ReflectionPropertyAccessorTest extends TestCase
         $accessor = $this->createMock(PropertyAccessorInterface::class);
         $accessor->expects(self::once())->method('isReadable')->with($class, $path)->willReturn($isReadable);
 
-        $property = $this->createMock(\ReflectionProperty::class);
+        $property = $this->createStub(\ReflectionProperty::class);
 
         $reflectionService = $this->createMock(ReflectionService::class);
         $reflectionService
@@ -261,7 +250,7 @@ class ReflectionPropertyAccessorTest extends TestCase
             ->method('getReflectionProperty')
             ->willReturn($hasProperty ? $property : null);
 
-        $actual = (new ReflectionPropertyAccessor($accessor, $reflectionService))->isReadable($class, $path);
+        $actual = new ReflectionPropertyAccessor($accessor, $reflectionService)->isReadable($class, $path);
         self::assertEquals($expected, $actual);
     }
 
@@ -286,9 +275,7 @@ class ReflectionPropertyAccessorTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider getTestIsStrictlyReadableData
-     */
+    #[DataProvider('getTestIsStrictlyReadableData')]
     public function testIsStrictlyReadable(bool $isReadable, bool $expected): void
     {
         $class = new \stdClass();
@@ -300,7 +287,7 @@ class ReflectionPropertyAccessorTest extends TestCase
         $reflectionService = $this->createMock(ReflectionService::class);
         $reflectionService->expects(self::never())->method('getReflectionProperty');
 
-        $actual = (new ReflectionPropertyAccessor($accessor, $reflectionService))->isStrictlyReadable($class, $path);
+        $actual = new ReflectionPropertyAccessor($accessor, $reflectionService)->isStrictlyReadable($class, $path);
         self::assertEquals($expected, $actual);
     }
 

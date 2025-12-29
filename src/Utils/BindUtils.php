@@ -3,23 +3,23 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the SymfonyOrchestra package.
+ * This file is part of the ChamberOrchestra package.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace SymfonyOrchestra\ViewBundle\Utils;
+namespace ChamberOrchestra\ViewBundle\Utils;
 
 use Doctrine\Common\Util\ClassUtils;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
-use SymfonyOrchestra\ViewBundle\Attribute\Type;
-use SymfonyOrchestra\ViewBundle\PropertyAccessor\ReflectionPropertyAccessor;
-use SymfonyOrchestra\ViewBundle\PropertyAccessor\ReflectionService;
-use SymfonyOrchestra\ViewBundle\View\BindView;
-use SymfonyOrchestra\ViewBundle\View\IterableView;
-use SymfonyOrchestra\ViewBundle\View\ViewInterface;
+use ChamberOrchestra\ViewBundle\Attribute\Type;
+use ChamberOrchestra\ViewBundle\PropertyAccessor\ReflectionPropertyAccessor;
+use ChamberOrchestra\ViewBundle\PropertyAccessor\ReflectionService;
+use ChamberOrchestra\ViewBundle\View\BindView;
+use ChamberOrchestra\ViewBundle\View\IterableView;
+use ChamberOrchestra\ViewBundle\View\ViewInterface;
 
 class BindUtils
 {

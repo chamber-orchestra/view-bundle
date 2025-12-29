@@ -1,0 +1,39 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Tests\Integrational;
+
+use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
+use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symfony\Component\HttpKernel\Kernel;
+use ChamberOrchestra\ViewBundle\ChamberOrchestraViewBundle;
+
+final class TestKernel extends Kernel
+{
+    use MicroKernelTrait;
+
+    public function registerBundles(): iterable
+    {
+        return [
+            new FrameworkBundle(),
+            new ChamberOrchestraViewBundle(),
+        ];
+    }
+
+    protected function configureContainer(ContainerConfigurator $container): void
+    {
+        $container->extension('framework', [
+            'secret' => 'test_secret',
+            'test' => true,
+            'serializer' => ['enabled' => true],
+        ]);
+        $container->extension('chamber_orchestra_view', []);
+    }
+
+    public function getProjectDir(): string
+    {
+        return \dirname(__DIR__, 2);
+    }
+}
