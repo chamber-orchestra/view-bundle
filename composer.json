@@ -1,5 +1,5 @@
 {
-  "name": "symfony-orchestra/view-bundle",
+  "name": "chamber-orchestra/view-bundle",
   "type": "library",
   "description": "The view symfony bundle for JSON API responses",
   "keywords": [
