@@ -2,23 +2,25 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the SymfonyOrchestra package.
+ * This file is part of the ChamberOrchestra package.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Tests\Functional\PropertyAccessor;
+namespace Tests\Integrational\PropertyAccessor;
 
-use PHPUnit\Framework\TestCase;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
-use SymfonyOrchestra\ViewBundle\PropertyAccessor\ReflectionPropertyAccessor;
-use SymfonyOrchestra\ViewBundle\PropertyAccessor\ReflectionService;
+use ChamberOrchestra\ViewBundle\PropertyAccessor\ReflectionPropertyAccessor;
+use ChamberOrchestra\ViewBundle\PropertyAccessor\ReflectionService;
 
-class ReflectionPropertyAccessorTest extends TestCase
+class ReflectionPropertyAccessorTest extends KernelTestCase
 {
     public function testSetValue(): void
     {
+        self::bootKernel();
+
         $object = new \stdClass();
         $path = 'path';
         $value = 'value';

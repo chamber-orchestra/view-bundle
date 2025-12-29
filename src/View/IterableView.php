@@ -3,13 +3,13 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the SymfonyOrchestra package.
+ * This file is part of the ChamberOrchestra package.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace SymfonyOrchestra\ViewBundle\View;
+namespace ChamberOrchestra\ViewBundle\View;
 
 use Symfony\Component\Serializer\Normalizer\NormalizableInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
@@ -33,7 +33,7 @@ class IterableView extends View implements NormalizableInterface
         throw new \RuntimeException(\sprintf('%s should be defined or mapping closure should be passed for value %s', __METHOD__, \get_class($value)));
     }
 
-    public function normalize(NormalizerInterface $normalizer, string $format = null, array $context = []): array|string|int|float|bool
+    public function normalize(NormalizerInterface $normalizer, ?string $format = null, array $context = []): array|string|int|float|bool
     {
         return $normalizer->normalize($this->entries);
     }
