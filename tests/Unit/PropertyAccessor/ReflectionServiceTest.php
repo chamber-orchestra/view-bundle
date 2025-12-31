@@ -51,6 +51,16 @@ final class ReflectionServiceTest extends TestCase
         $this->assertNull($service->getReflectionProperty($child, 'unknown'));
     }
 
+    public function testItAcceptsReflectionClassInput(): void
+    {
+        $service = new ReflectionService();
+
+        $properties = $service->getReflectionProperties(new \ReflectionClass(ChildSubject::class));
+
+        $this->assertArrayHasKey('childProp', $properties);
+        $this->assertArrayHasKey('parentProp', $properties);
+    }
+
     private function resetCache(): void
     {
         $ref = new \ReflectionProperty(ReflectionService::class, 'storage');

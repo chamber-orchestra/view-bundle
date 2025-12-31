@@ -89,6 +89,54 @@ final class BindUtilsTest extends TestCase
         self::assertSame($child, $target->children->entries[0]->source);
     }
 
+    public function testSyncSkipsIncompatibleOrUnsupportedTypes(): void
+    {
+        $source = new class {
+            public object $incompatible;
+            public string $union = 'value';
+
+            public function __construct()
+            {
+                $this->incompatible = new SourceSubject();
+            }
+        };
+
+        $target = new class {
+            public ?TargetSubject $incompatible = null;
+            public int|string|null $union = null;
+        };
+
+        BindUtils::instance()->sync($target, $source);
+
+        self::assertNull($target->incompatible);
+        self::assertNull($target->union);
+    }
+
+    public function testSyncAllowsAutoConfigurableTargetTypes(): void
+    {
+        $child = new class {
+            public string $id = 'child-id';
+        };
+
+        $source = new class($child) {
+            public object $child;
+
+            public function __construct(object $child)
+            {
+                $this->child = $child;
+            }
+        };
+
+        $target = new class {
+            public ?ChildView $child = null;
+        };
+
+        BindUtils::instance()->sync($target, $source);
+
+        self::assertInstanceOf(ChildView::class, $target->child);
+        self::assertSame($child, $target->child->source);
+    }
+
     private function getBindUtilsProperty(string $property): mixed
     {
         return new \ReflectionProperty(BindUtils::class, $property)->getValue();
@@ -116,4 +164,12 @@ final class ChildView extends BindView
     {
         parent::__construct($source);
     }
+}
+
+final class SourceSubject
+{
+}
+
+final class TargetSubject
+{
 }
