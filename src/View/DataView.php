@@ -17,8 +17,8 @@ class DataView extends ResponseView
 {
     public function __construct(
         public readonly ViewInterface|array $data,
-    )
-    {
+    ) {
+        parent::__construct();
     }
 
     public function normalize(NormalizerInterface $normalizer, ?string $format = null, array $context = []): array|string|int|float|bool

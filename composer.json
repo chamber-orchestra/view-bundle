@@ -58,5 +58,8 @@
     "allow-plugins": {
       "symfony/runtime": true
     }
+  },
+  "scripts": {
+    "test": "vendor/bin/phpunit"
   }
 }
