@@ -174,13 +174,8 @@ class BindUtils
 
     private function isAutoConfigurableType(\ReflectionNamedType $type): bool
     {
-        foreach ([BindView::class, IterableView::class] as $class) {
-            if (\is_a($type->getName(), $class, true)) {
-                return true;
-            }
-        }
+        return \array_any([BindView::class, IterableView::class], fn($class) => \is_a($type->getName(), $class, true));
 
-        return false;
     }
 
     private function getAccessor(): ReflectionPropertyAccessor

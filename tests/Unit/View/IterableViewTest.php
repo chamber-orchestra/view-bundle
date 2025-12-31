@@ -36,6 +36,14 @@ final class IterableViewTest extends TestCase
         new IterableView([new \stdClass()]);
     }
 
+    public function testItThrowsWhenClassStringDoesNotExist(): void
+    {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Mapping class');
+
+        new IterableView([new \stdClass()], 'MissingViewClass');
+    }
+
     public function testNormalizeDelegatesEntries(): void
     {
         $view = new IterableView([1, 2], static fn(int $v) => $v + 1);
