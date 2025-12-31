@@ -1,3 +1,5 @@
+[![PHP Composer](https://github.com/chamber-orchestra/view-bundle/actions/workflows/php.yml/badge.svg)](https://github.com/chamber-orchestra/view-bundle/actions/workflows/php.yml)
+
 # ChamberOrchestra View Bundle
 
 A lightweight Symfony bundle for building typed, reusable JSON responses. Views encapsulate serialization concerns so controllers can return simple objects instead of `Response`.
